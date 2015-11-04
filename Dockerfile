@@ -1,22 +1,31 @@
-FROM ipython/scipyserver
+FROM jupyter/datascience-notebook
 
 MAINTAINER Raymond Yee  <raymond.yee@gmail.com>
 
+USER root
 RUN apt-get -y install python-lxml libxml2-dev libxslt1-dev
         
-#RUN pip2 install mwclient
-#RUN pip2 install git+git://github.com/mwclient/mwclient@v0.7.1
-#RUN pip2 install https://bitbucket.org/rdhyee/mwclient/get/wpp.tar.bz2
-RUN pip2 install git+git://github.com/rdhyee/mwclient@wpp_integrate
+        
+USER jovyan
 
-RUN pip2 install responses && \
-    pip2 install pytest && \
-    pip2 install boltons && \
-    pip2 install pywikibot && \
-    pip2 install cssselect
+RUN /opt/conda/envs/python2/bin/pip install lxml
+RUN /opt/conda/envs/python2/bin/pip install mwclient
+RUN /opt/conda/envs/python2/bin/pip install git+git://github.com/mwclient/mwclient@v0.7.1
+RUN /opt/conda/envs/python2/bin/pip install https://bitbucket.org/rdhyee/mwclient/get/wpp.tar.bz2
+RUN /opt/conda/envs/python2/bin/pip install git+git://github.com/rdhyee/mwclient@wpp_integrate
 
-VOLUME ["/notebooks", "/data"]
+RUN /opt/conda/envs/python2/bin/pip install responses && \
+    /opt/conda/envs/python2/bin/pip install pytest && \
+    /opt/conda/envs/python2/bin/pip install boltons && \
+    /opt/conda/envs/python2/bin/pip install pywikibot && \
+    /opt/conda/envs/python2/bin/pip install cssselect
 
-EXPOSE 8888
+COPY notebooks/ /home/jovyan/work
+# A bit ugly but unfortunately necessary: https://github.com/docker/docker/issues/6119
+USER root
+RUN chown -R jovyan:users /home/jovyan/work
 
-CMD /notebook.sh
+#USER jovyan
+
+VOLUME ["/user/jovan/work", "/data"]
+
