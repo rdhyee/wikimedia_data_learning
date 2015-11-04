@@ -5,7 +5,7 @@ FROM andrewosh/binder-base
 MAINTAINER Raymond Yee  <raymond.yee@gmail.com>
 
 USER root
-RUN apt-get -y install python-lxml libxml2-dev libxslt1-dev
+RUN apt-get -y install libxml2-dev libxslt-dev python-dev
         
 USER main
 
