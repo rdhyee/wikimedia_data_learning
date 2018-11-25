@@ -23,7 +23,7 @@ RUN pip install responses && \
     pip install pywikibot && \
     pip install cssselect
 
-# COPY notebooks/ /home/jovyan/work
+COPY notebooks/ /home/jovyan/work
 # A bit ugly but unfortunately necessary: https://github.com/docker/docker/issues/6119
 USER root
 RUN chown -R jovyan:users /home/jovyan/work
