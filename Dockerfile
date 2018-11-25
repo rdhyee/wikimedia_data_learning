@@ -1,30 +1,34 @@
-FROM jupyter/scipy-notebook
+FROM jupyter/scipy-notebook@sha256:24eff1eeafdc22f744e003771d1f40b97997b4593763a8ca2d4967b314f2879d 
 
-MAINTAINER Raymond Yee  <raymond.yee@gmail.com>
-
-#USER root
-#RUN apt-get -y install python-lxml libxml2-dev libxslt1-dev
+USER root
+RUN apt-get update && apt-get -yq dist-upgrade \
+ && apt-get install -yq --no-install-recommends \
+ python-lxml \
+ libxml2-dev \
+ libxslt1-dev \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
         
-USER jovyan
+# USER jovyan
 
-RUN conda install -n python2 lxml
-RUN pip2 install mwclient
-RUN pip2 install git+git://github.com/mwclient/mwclient@v0.7.1
-RUN pip2 install https://bitbucket.org/rdhyee/mwclient/get/wpp.tar.bz2
-RUN pip2 install git+git://github.com/rdhyee/mwclient@wpp_integrate
+RUN pip install lxml
+RUN pip install mwclient
+# RUN pip install git+git://github.com/mwclient/mwclient@v0.7.1
+# RUN pip install https://bitbucket.org/rdhyee/mwclient/get/wpp.tar.bz2
+# RUN pip install git+git://github.com/rdhyee/mwclient@wpp_integrate
 
-RUN pip2 install responses && \
-    pip2 install pytest && \
-    pip2 install boltons && \
-    pip2 install pywikibot && \
-    pip2 install cssselect
+RUN pip install responses && \
+    pip install pytest && \
+    pip install boltons && \
+    pip install pywikibot && \
+    pip install cssselect
 
-COPY notebooks/ /home/jovyan/work
+# COPY notebooks/ /home/jovyan/work
 # A bit ugly but unfortunately necessary: https://github.com/docker/docker/issues/6119
 USER root
 RUN chown -R jovyan:users /home/jovyan/work
 
 #USER jovyan
 
-VOLUME ["/user/jovan/work", "/data"]
+VOLUME ["/user/jovan/", "/data"]
 
