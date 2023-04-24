@@ -1,14 +1,14 @@
-FROM jupyter/scipy-notebook@sha256:24eff1eeafdc22f744e003771d1f40b97997b4593763a8ca2d4967b314f2879d 
+#FROM jupyter/scipy-notebook@sha256:24eff1eeafdc22f744e003771d1f40b97997b4593763a8ca2d4967b314f2879d 
+FROM jupyter/scipy-notebook:2023-02-28
 
 USER root
 RUN apt-get update && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends \
- python-lxml \
- libxml2-dev \
- libxslt1-dev \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/*
-        
+    && apt-get install -yq --no-install-recommends \
+    libxml2-dev \
+    libxslt1-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # USER jovyan
 
 RUN pip install lxml

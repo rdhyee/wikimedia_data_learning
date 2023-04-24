@@ -17,7 +17,12 @@ PORT=${1:-8888}
 #    -e GEN_CERT=yes rdhyee/wikimedia_data_learning \
 #    start-notebook.sh --NotebookApp.password='sha1:cfc5f75e0905:e91ef06bf1229ab9a0941b5c0d97bf2417f63902'
 
-docker run -v `pwd`:/home/jovyan -p $PORT:8888 -e "PYWIKIBOT2_NO_USER_CONFIG=1" \
-   -e GEN_CERT=yes rdhyee/wikimedia_data_learning \
-   start-notebook.sh --NotebookApp.token='password123'
+docker run \
+   -v "${PWD}":/home/jovyan/work \
+   -p $PORT:8888 \
+   -e "PYWIKIBOT2_NO_USER_CONFIG=1" \
+   -e GEN_CERT=yes \
+   rdhyee/wikimedia_data_learning \
+   start-notebook.sh \
+   --NotebookApp.password='argon2:$argon2id$v=19$m=10240,t=10,p=8$qvckJKX8B1thQjA0CYmw/Q$v8nHdCbdSZPfxWCVU7bIhI0w4/GjWZuNsrw8AkhWXdo'
 
